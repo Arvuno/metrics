@@ -1,0 +1,30 @@
+# Example metrics.yml configuration
+# Copy this file to .github/workflows/metrics.yml and customize
+
+# Repository-level metrics collection
+repository:
+  # Collect issue and PR metrics
+  issues: true
+  pull_requests: true
+  # Filter by label
+  labels:
+    - bug
+    - enhancement
+  # Time range (e.g., 30d, 90d, 1y)
+  since: 30d
+
+# Contributor metrics
+contributors:
+  # Include in metrics report
+  enabled: true
+  # Minimum number of contributions to appear in report
+  min_contributions: 5
+
+# Schedule (cron format)
+schedule: "0 6 * * *"  # Daily at 6 AM UTC
+
+# Outputs
+output:
+  # Save report to artifact
+  artifact: metrics-report
+  format: markdown  # or json

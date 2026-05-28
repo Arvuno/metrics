@@ -32,7 +32,12 @@ export default async function({login, imports, data, q, account}, {enabled = fal
     console.debug(`metrics/compute/${login}/plugins > pagespeed > performing audit ${categories_required}`)
     const request = await imports.axios.get(`https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${url}${categories_required}${token ? `&key=${token}` : ""}`)
     for (const category of categories) {
-      const {score, title} = request.data.lighthouseResult.categories[category]
+      const categoryData = request.data.lighthouseResult.categories[category]
+      if (!categoryData) {
+        console.debug(`metrics/compute/${login}/plugins > pagespeed > ${category} category not available`)
+        continue
+      }
+      const {score, title} = categoryData
       result.scores.push({score, title})
       console.debug(`metrics/compute/${login}/plugins > pagespeed > performed audit ${category} (status code ${request.status})`)
     }

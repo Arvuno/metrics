@@ -94,3 +94,6 @@ The following contributions are accepted:
 * ✔️: Contributions welcomed!
 * ✓: Contributions are welcomed, but must be discussed first
 * ❌: Only maintainers can manage these files
+
+<!-- Thanks for contributing! -->
+

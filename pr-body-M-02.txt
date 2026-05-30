@@ -1,0 +1,28 @@
+## Summary
+
+The **Manager achievement** uses `user.projects` which is the classic GitHub Projects API that was deprecated and shut down on May 23, 2024. Users who only have Projects V2 (the new board-style projects) were getting errors or empty values for this achievement.
+
+### Changes
+
+| File | Change |
+|------|--------|
+| `source/plugins/achievements/queries/achievements.graphql` | `projects(first: 1, ...)` → `projectsV2(first: 1, ...)` |
+| `source/plugins/achievements/list/users.mjs` | `user.projects.totalCount` → `user.projectsV2.totalCount` |
+
+### Why projectsV2
+
+Projects V2 is GitHub's current project product. The `projectsV2` GraphQL API replaces the deprecated `projects` API. The field structure (`totalCount`, `nodes`) is identical, so this is a direct migration.
+
+### Testing
+
+- The change is backward-compatible: if a user has no projects at all, `totalCount` returns `0` in both APIs
+- Manual test: visit a metrics profile page with the Manager achievement after migrating to Projects V2
+
+### Related
+
+- GitHub API deprecation: Classic Projects API sunset May 2024
+- GraphQL schema: [`projectsV2`](https://docs.github.com/en/graphql/api-previews#projects-v2) is the successor to `projects`
+
+---
+
+Closes #N/A (found during code review / GitHub API deprecation audit)
